@@ -22,11 +22,11 @@ function Import-Configuration
 		$Script:Config = $Script:Config | Where-Object { $_.Default -eq $True }
 		if(!$Script:Config)
 		{
-			throw "No default server found in $FilePath. Please run Set-RadarrConfiguration."
+			throw "No default server found in $FilePath. Please run Set-SonarrConfiguration."
 		}
 	}
 	else
 	{
-		throw "Config file not found at $FilePath. Please run Set-RadarrConfiguration."
+		throw "Config file not found at $FilePath. Please run Set-SonarrConfiguration."
 	}
 }
