@@ -1,0 +1,7 @@
+/Excludes/
+/Secrets/
+/Tests/
+/Tests/.env
+/Workflow/
+ToDo.md
+.vscode/settings.json
