@@ -3,7 +3,22 @@ function Get-SonarrSeries
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $false, ParameterSetName = 'Id')]
-		[String]$Id
+		[String]$Id,
+
+		[Parameter(Mandatory = $false, ParameterSetName = 'Name')]
+		[Alias('Title')]
+		[String]$Name,
+
+		[Parameter(Mandatory = $false, ParameterSetName = 'IMDBID')]
+		[ValidatePattern('^(tt)?\d{5,9}$')]
+		[String]$IMDBID,
+
+		[Parameter(Mandatory = $true, ParameterSetName = 'TMDBID')]
+		[String]$TMDBID,
+
+		[Parameter(Mandatory = $false, ParameterSetName = 'TVDBID')]
+		[ValidatePattern('^\d{1,9}$')]
+		[String]$TVDBID
 	)
 
 	####################################################################################################
@@ -48,6 +63,31 @@ function Get-SonarrSeries
 		$Data = Invoke-RestMethod -Uri $Uri -Headers $Headers -Method Get -ContentType 'application/json' -ErrorAction Stop
 		if($Data)
 		{
+			# Filter results based on parameters if specified
+			switch($PSCmdlet.ParameterSetName)
+			{
+				'Name'
+				{
+					$Data = $Data | Where-Object { $_.title -eq $Name -or $_.originalTitle -eq $Name }
+				}
+				'IMDBID'
+				{
+					if($IMDBID -notmatch '^tt')
+					{
+						$IMDBID = 'tt' + $IMDBID
+					}
+					$Data = $Data | Where-Object { $_.imdbId -eq "$IMDBID" }
+				}
+				'TMDBID'
+				{
+					$Data = $Data | Where-Object { $_.tmdbId -eq $TMDBID }
+				}
+				'TVDBID'
+				{
+					$Data = $Data | Where-Object { $_.tvdbId -eq $TVDBID }
+				}
+			}
+
 			return $Data
 		}
 		else
