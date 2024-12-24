@@ -60,6 +60,14 @@ function Search-SonarrSeries
 
 
 	####################################################################################################
+	# If using IMDB, ensure the ID is in the correct format
+	if($ParameterSetName -eq 'IMDBID' -and $IMDBID -notmatch '^tt')
+	{
+		$IMDBID = 'tt' + $IMDBID
+	}
+
+
+	####################################################################################################
 	#Region Define the path, parameters, headers and URI
 	try
 	{
@@ -72,11 +80,6 @@ function Search-SonarrSeries
 		}
 		elseif($IMDBID)
 		{
-			if($IMDBID -notmatch '^tt')
-			{
-				$IMDBID = 'tt' + $IMDBID
-			}
-
 			$Params = @{
 				term = "imdb:$($IMDBID)"
 			}
