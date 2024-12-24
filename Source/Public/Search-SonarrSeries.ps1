@@ -35,15 +35,15 @@ function Search-SonarrSeries
 		[Parameter(Mandatory = $false, ParameterSetName = 'Name')]
 		[Switch]$ExactMatch,
 
+		[Parameter(Mandatory = $true, ParameterSetName = 'IMDBID')]
+		[ValidatePattern('^(tt)?\d{5,9}$')]
+		[String]$IMDBID,
+
 		[Parameter(Mandatory = $true, ParameterSetName = 'TMDBID')]
 		[String]$TMDBID,
 
 		[Parameter(Mandatory = $true, ParameterSetName = 'TVDBID')]
-		[String]$TVDBID,
-
-		[Parameter(Mandatory = $true, ParameterSetName = 'IMDBID')]
-		[ValidatePattern('^(tt)?\d{5,9}$')]
-		[String]$IMDBID
+		[String]$TVDBID
 	)
 
 	####################################################################################################
@@ -70,6 +70,17 @@ function Search-SonarrSeries
 				term = $Name
 			}
 		}
+		elseif($IMDBID)
+		{
+			if($IMDBID -notmatch '^tt')
+			{
+				$IMDBID = 'tt' + $IMDBID
+			}
+
+			$Params = @{
+				term = "imdb:$($IMDBID)"
+			}
+		}
 		elseif($TMDBID)
 		{
 			$Params = @{
@@ -80,17 +91,6 @@ function Search-SonarrSeries
 		{
 			$Params = @{
 				term = "tvdb:$($TVDBID)"
-			}
-		}
-		elseif($IMDBID)
-		{
-			if($IMDBID -notmatch '^tt')
-			{
-				$IMDBID = 'tt' + $IMDBID
-			}
-
-			$Params = @{
-				term = "imdb:$($IMDBID)"
 			}
 		}
 		else
