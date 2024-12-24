@@ -1,6 +1,6 @@
 function Get-SonarrSeries
 {
-	[CmdletBinding()]
+	[CmdletBinding(DefaultParameterSetName = 'All')]
 	param(
 		[Parameter(Mandatory = $false, ParameterSetName = 'Id')]
 		[String]$Id,
