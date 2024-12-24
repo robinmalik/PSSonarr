@@ -1,0 +1,2 @@
+# PSSonarr
+Sonarr helper module
