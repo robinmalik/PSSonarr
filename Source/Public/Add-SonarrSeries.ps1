@@ -47,7 +47,7 @@ function Add-SonarrSeries
 
 
 	####################################################################################################
-	#Region Check if already in Radarr before attempting an addition
+	#Region Check if already in Sonarr before attempting an addition
 	Write-Verbose -Message "Checking if the series already exists"
 	try
 	{
@@ -66,7 +66,7 @@ function Add-SonarrSeries
 
 		if($Series)
 		{
-			Write-Warning "Series already exists in Radarr!"
+			Write-Warning "Series already exists in Sonarr!"
 			return
 		}
 	}
