@@ -1,6 +1,7 @@
-/Excludes/
-/Secrets/
+/Excludes
+/PSSonarr
+/Secrets
 /Tests/.env
-/Workflow/
+/Workflow
 ToDo.md
 .vscode/settings.json
