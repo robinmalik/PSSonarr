@@ -12,7 +12,7 @@
     RootModule        = 'PSSonarr.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.0.3'
+    ModuleVersion     = '0.0.4'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -76,6 +76,7 @@
         'Remove-SonarrSeries'
         'Search-SonarrSeries'
         'Set-SonarrSeasonStatus'
+        'Set-SonarrSeriesStatus'
         'Set-SonarrConfiguration'
     )
 

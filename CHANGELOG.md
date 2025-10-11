@@ -1,3 +1,7 @@
+## [0.0.4] - 2025-10-11
+
+* ✨ [New] `Set-SonarrSeriesStatus` - Set a series to monitored or unmonitored.
+
 ## [0.0.3] - 2025-10-11
 
 * ✨ [New] `Set-SonarrSeasonStatus` - Set a season to monitored or unmonitored.
