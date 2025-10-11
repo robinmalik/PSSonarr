@@ -1,6 +1,7 @@
 /Excludes
 /PSSonarr
 /Secrets
+/Tests/
 /Tests/.env
 /Workflow
 ToDo.md
