@@ -21,10 +21,10 @@ function Set-SonarrSeriesStatus
 			Boolean value indicating whether the series should be monitored (True) or unmonitored (False).
 
 		.EXAMPLE
-			Set-SonarrSeriesStatus -Id 123 -SeasonNumber 1 -Monitored $true
+			Set-SonarrSeriesStatus -Id 123 -Monitored $true
 
 		.EXAMPLE
-			Set-SonarrSeriesStatus -Id 456 -SeasonNumber 1 -Monitored $false
+			Set-SonarrSeriesStatus -Id 456 -Monitored $false
 
 		.NOTES
 			This function modifies the overall series monitoring status, not individual seasons.
