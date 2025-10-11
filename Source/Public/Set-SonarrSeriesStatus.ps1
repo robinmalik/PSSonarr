@@ -36,9 +36,6 @@ function Set-SonarrSeriesStatus
 		[Int]$Id,
 
 		[Parameter(Mandatory = $True)]
-		[Int]$SeasonNumber,
-
-		[Parameter(Mandatory = $True)]
 		[Boolean]$Monitored
 	)
 

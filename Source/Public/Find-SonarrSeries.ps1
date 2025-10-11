@@ -1,17 +1,17 @@
-function Search-SonarrSeries
+function Find-SonarrSeries
 {
 	<#
 		.SYNOPSIS
 			Search to find a series in order to add to Sonarr.
 
 		.SYNTAX
-			Search-SonarrSeries -Name <String> [-ExactMatch] [<CommonParameters>]
+			Find-SonarrSeries -Name <String> [-ExactMatch] [<CommonParameters>]
 
-			Search-SonarrSeries -IMDBID <String> [<CommonParameters>]
+			Find-SonarrSeries -IMDBID <String> [<CommonParameters>]
 
-			Search-SonarrSeries -TMDBID <String> [<CommonParameters>]
+			Find-SonarrSeries -TMDBID <String> [<CommonParameters>]
 
-			Search-SonarrSeries -TVDBID <String> [<CommonParameters>]
+			Find-SonarrSeries -TVDBID <String> [<CommonParameters>]
 
 		.DESCRIPTION
 			This uses the lookup service within Sonarr to search for a series by name, TVDB ID, or IMDB ID.
@@ -30,7 +30,7 @@ function Search-SonarrSeries
 			The IMDB ID of the series to search for.
 
 		.EXAMPLE
-			Search-SonarrSeries -Name "The Matrix"
+			Find-SonarrSeries -Name "The Matrix"
 
 		.NOTES
 			If you have the IMDB ID or TVDB ID of a series, it's better to use this to search.

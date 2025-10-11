@@ -157,15 +157,15 @@ function Add-SonarrSeries
 	{
 		if($IMDBID)
 		{
-			$Series = Search-SonarrSeries -IMDBID $IMDBID -ErrorAction Stop
+			$Series = Find-SonarrSeries -IMDBID $IMDBID -ErrorAction Stop
 		}
 		elseif($TMDBID)
 		{
-			$Series = Search-SonarrSeries -TMDBID $TMDBID -ErrorAction Stop
+			$Series = Find-SonarrSeries -TMDBID $TMDBID -ErrorAction Stop
 		}
 		elseif($TVDBID)
 		{
-			$Series = Search-SonarrSeries -TVDBID $TVDBID -ErrorAction Stop
+			$Series = Find-SonarrSeries -TVDBID $TVDBID -ErrorAction Stop
 		}
 
 		if(!$Series)

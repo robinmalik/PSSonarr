@@ -28,14 +28,14 @@ Get-SonarrSeries
 
 **Search for a series by name, add it to Sonarr by IMDB ID, monitor all episodes but do not start a search**:
 ```powershell
-$Search = Search-SonarrSeries -Name 'The Simpsons' -ExactMatch
+$Search = Find-SonarrSeries -Name 'The Simpsons' -ExactMatch
 Add-SonarrSeries -IMDBID $Search.imdbId -MonitorOption 'all'
 ```
 
 
 **Search for a series by name, add it to Sonarr by IMDB ID, monitor the latest season and initiate a search**:
 ```powershell
-$Search = Search-SonarrSeries -Name 'The Simpsons' -ExactMatch
+$Search = Find-SonarrSeries -Name 'The Simpsons' -ExactMatch
 Add-SonarrSeries -IMDBID $Search.imdbId -MonitorOption 'latest' -Search
 ```
 

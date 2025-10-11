@@ -12,7 +12,7 @@
     RootModule        = 'PSSonarr.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.0.4'
+    ModuleVersion     = '0.0.5'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -71,10 +71,11 @@
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
         'Add-SonarrSeries'
+        'Find-SonarrSeries'
         'Get-SonarrQualityProfile'
         'Get-SonarrSeries'
         'Remove-SonarrSeries'
-        'Search-SonarrSeries'
+        'Start-SonarrSeasonSearch'
         'Set-SonarrSeasonStatus'
         'Set-SonarrSeriesStatus'
         'Set-SonarrConfiguration'
