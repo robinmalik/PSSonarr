@@ -1,5 +1,48 @@
 function Add-SonarrSeries
 {
+	<#
+		.SYNOPSIS
+			Add a series to Sonarr by IMDB, TMDB, or TVDB ID.
+
+		.SYNTAX
+			Add-SonarrSeries -IMDBID <String> -QualityProfileId <Int32> [-MonitorOption <String>] [-Search] [<CommonParameters>]
+
+			Add-SonarrSeries -TMDBID <String> -QualityProfileId <Int32> [-MonitorOption <String>] [-Search] [<CommonParameters>]
+
+			Add-SonarrSeries -TVDBID <String> -QualityProfileId <Int32> [-MonitorOption <String>] [-Search] [<CommonParameters>]
+
+		.DESCRIPTION
+			Adds a series to Sonarr using external database IDs. The function will search for the series using the provided ID,
+			then add it to Sonarr with the specified quality profile and monitoring options.
+
+		.PARAMETER IMDBID
+			The IMDB ID of the series to add. Can include or exclude the 'tt' prefix.
+
+		.PARAMETER TMDBID
+			The TMDB (The Movie Database) ID of the series to add.
+
+		.PARAMETER TVDBID
+			The TVDB (TheTVDB) ID of the series to add.
+
+		.PARAMETER QualityProfileId
+			The ID of the quality profile to assign to the series.
+
+		.PARAMETER MonitorOption
+			The monitoring option for the series. Valid values are: 'all', 'firstSeason', 'lastSeason', 'future', 'missing', 'existing', 'recent', 'pilot', 'monitorSpecials', 'unmonitorSpecials', 'none'. Defaults to 'all'.
+
+		.PARAMETER Search
+			If specified, initiates a search for missing episodes after adding the series.
+
+		.EXAMPLE
+			Add-SonarrSeries -IMDBID 'tt0944947' -QualityProfileId 1 -MonitorOption 'all' -Search
+
+		.EXAMPLE
+			Add-SonarrSeries -TVDBID '121361' -QualityProfileId 2 -MonitorOption 'future'
+
+		.NOTES
+			The series must exist in the external database (IMDB, TMDB, or TVDB) and be findable through Sonarr's lookup service.
+	#>
+
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true, ParameterSetName = 'IMDB')]
@@ -18,7 +61,7 @@ function Add-SonarrSeries
 		$QualityProfileId,
 
 		[Parameter(Mandatory = $false)]
-		[ValidateSet('all', 'future', 'missing', 'existing', 'recent', 'pilot', 'firstSeason', 'lastSeason', 'monitorSpecials', 'unmonitorSpecials', 'none')]
+		[ValidateSet('all', 'firstSeason', 'lastSeason', 'future', 'missing', 'existing', 'recent', 'pilot', 'monitorSpecials', 'unmonitorSpecials', 'none')]
 		$MonitorOption = 'all',
 
 		[Parameter(Mandatory = $false)]

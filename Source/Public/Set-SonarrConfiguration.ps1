@@ -4,6 +4,9 @@ function Set-SonarrConfiguration
 		.SYNOPSIS
 			Sets the configuration for connecting to a Sonarr server instance.
 
+		.SYNTAX
+			Set-SonarrConfiguration -Server <String> -APIKey <String> -RootFolderPath <String> [-Port <Int32>] [-Protocol <String>] [-APIVersion <Int32>] [-Default <Boolean>] [<CommonParameters>]
+
 		.DESCRIPTION
 			Saves Sonarr server connection settings including server address, port, API key, and API version to a JSON configuration file.
 			The configuration is stored in the user's home directory under .PSSonarr/PSSonarrConfig.json.
@@ -39,12 +42,14 @@ function Set-SonarrConfiguration
 
 	param (
 		[Parameter(Mandatory = $true)]
+		[ValidatePattern('^[a-zA-Z0-9.-]+$')]
 		[string]$Server,
 
 		[Parameter(Mandatory = $false)]
 		[int]$Port = 8989,
 
 		[Parameter(Mandatory = $false)]
+		[ValidateSet("http", "https")]
 		[string]$Protocol = "http",
 
 		[Parameter(Mandatory = $true)]
@@ -89,48 +94,48 @@ function Set-SonarrConfiguration
 	}
 	#EndRegion
 
-	####################################################################################################
-	# Construct an object with the data we want to save
-	$ServerObject = [Ordered]@{
-		"Server"         = $Server
-		"Port"           = $Port
-		"Protocol"       = $Protocol
-		"APIKey"         = $APIKey
-		"APIVersion"     = $APIVersion
-		"RootFolderPath" = $RootFolderPath
-		"Default"        = $Default
+	#############################################################################
+	# If the user has passed default as $False, but there is no existing default server (excluding itself) with
+	# default set to $true, then we'll force this server to be the default.
+	if($Default -eq $false -and ($ConfigData | Where-Object { $_.Default -eq $true -and $_.Server -ne $Server }).Count -eq 0)
+	{
+		Write-Warning -Message "No default server found. Forcing this server to be the default."
+		$Default = $true
 	}
 
-	# Check if a server with the same Server and Port exists
-	$ExistingServer = $ConfigData | Where-Object { $_.Server -eq $Server -and $_.Port -eq $Port }
-
 	####################################################################################################
-	# If the server exists, update its configuration
-	if($ExistingServer)
+	# Set all servers to Default = $false:
+	$ConfigData | ForEach-Object ( { $_.Default = $false } )
+
+	$Found = $false
+	foreach($Entry in $ConfigData)
 	{
-		Write-Verbose -Message "Updating existing server configuration"
-		foreach($Entry in $ConfigData)
+		# If the server and port already exist in the configuration, update the rest of the data
+		# that could have changed:
+		if($Entry.Server -eq $Server -and $Entry.Port -eq $Port)
 		{
-			if($Entry.Server -eq $Server -and $Entry.Port -eq $Port)
-			{
-				$Entry.Server = $Server
-				$Entry.Port = $Port
-				$Entry.Protocol = $Protocol
-				$Entry.APIKey = $APIKey
-				$Entry.APIVersion = $APIVersion
-				$Entry.RootFolderPath = $RootFolderPath
-				$Entry.Default = $Default
-			}
-			else
-			{
-				$Entry.Default = $false
-			}
+			$Entry.Protocol = $Protocol
+			$Entry.APIKey = $APIKey
+			$Entry.APIVersion = $APIVersion
+			$Entry.RootFolderPath = $RootFolderPath
+			$Entry.Default = $Default
+			$Found = $true
 		}
 	}
-	else
+
+	# If we didn't find the server in the configuration, this would be a new entry:
+	if($Found -eq $false)
 	{
-		# Add the new server configuration
-		Write-Verbose -Message "Adding new server configuration"
+		#Construct an object with the data we want to save
+		$ServerObject = [Ordered]@{
+			"Server"         = $Server
+			"Port"           = $Port
+			"Protocol"       = $Protocol
+			"APIKey"         = $APIKey
+			"APIVersion"     = $APIVersion
+			"RootFolderPath" = $RootFolderPath
+			"Default"        = $Default
+		}
 		$ConfigData += $ServerObject
 	}
 
@@ -139,7 +144,10 @@ function Set-SonarrConfiguration
 	Write-Verbose -Message "Saving configuration to: $ConfigPath"
 	try
 	{
-		$ConfigData | ConvertTo-Json -ErrorAction Stop | Set-Content -Path $ConfigPath -Force -ErrorAction Stop
+		# We want to make sure that $ConfigData is always an array before we export it, to ensure we can add
+		# additional servers. Don't pipe $ConfigData directly to ConvertTo-Json, otherwise the first time around
+		# it'll create an object instead of an array.
+		ConvertTo-Json -InputObject $ConfigData -ErrorAction Stop | Set-Content -Path $ConfigPath -Force -ErrorAction Stop
 	}
 	catch
 	{

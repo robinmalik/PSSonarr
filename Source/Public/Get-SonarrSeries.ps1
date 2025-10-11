@@ -1,5 +1,57 @@
 function Get-SonarrSeries
 {
+	<#
+		.SYNOPSIS
+			Retrieves series from Sonarr.
+
+		.SYNTAX
+			Get-SonarrSeries [<CommonParameters>]
+
+			Get-SonarrSeries -Id <String> [<CommonParameters>]
+
+			Get-SonarrSeries -Name <String> [<CommonParameters>]
+
+			Get-SonarrSeries -IMDBID <String> [<CommonParameters>]
+
+			Get-SonarrSeries -TMDBID <String> [<CommonParameters>]
+
+			Get-SonarrSeries -TVDBID <String> [<CommonParameters>]
+
+		.DESCRIPTION
+			Retrieves series information from Sonarr. Can return all series or filter by specific criteria
+			such as ID, name, or external database IDs.
+
+		.PARAMETER Id
+			The Sonarr series ID to retrieve.
+
+		.PARAMETER Name
+			The name or title of the series to retrieve. Searches both title and originalTitle fields.
+
+		.PARAMETER IMDBID
+			The IMDB ID of the series to retrieve. Can include or exclude the 'tt' prefix.
+
+		.PARAMETER TMDBID
+			The TMDB (The Movie Database) ID of the series to retrieve.
+
+		.PARAMETER TVDBID
+			The TVDB (TheTVDB) ID of the series to retrieve.
+
+		.EXAMPLE
+			Get-SonarrSeries
+
+		.EXAMPLE
+			Get-SonarrSeries -Id '1'
+
+		.EXAMPLE
+			Get-SonarrSeries -Name 'Game of Thrones'
+
+		.EXAMPLE
+			Get-SonarrSeries -IMDBID 'tt0944947'
+
+		.NOTES
+			When no parameters are specified, all series in Sonarr are returned.
+	#>
+
 	[CmdletBinding(DefaultParameterSetName = 'All')]
 	param(
 		[Parameter(Mandatory = $false, ParameterSetName = 'Id')]

@@ -1,5 +1,32 @@
 function Remove-SonarrSeries
 {
+	<#
+		.SYNOPSIS
+			Removes a series from Sonarr.
+
+		.SYNTAX
+			Remove-SonarrSeries -Id <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+
+		.DESCRIPTION
+			Removes a series from Sonarr using the series ID. This function supports WhatIf and Confirm parameters
+			for safe execution.
+
+		.PARAMETER Id
+			The Sonarr series ID to remove. Accepts pipeline input by property name.
+
+		.EXAMPLE
+			Remove-SonarrSeries -Id '123'
+
+		.EXAMPLE
+			Get-SonarrSeries -Name 'Old Show' | Remove-SonarrSeries
+
+		.EXAMPLE
+			Remove-SonarrSeries -Id '123' -WhatIf
+
+		.NOTES
+			This function supports pipeline input and confirmation prompts for safe series removal.
+	#>
+
 	[CmdletBinding(SupportsShouldProcess)]
 	param(
 		[Parameter(Mandatory, ValueFromPipelineByPropertyName)]

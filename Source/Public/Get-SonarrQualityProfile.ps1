@@ -1,5 +1,39 @@
 function Get-SonarrQualityProfile
 {
+	<#
+		.SYNOPSIS
+			Retrieves quality profiles from Sonarr.
+
+		.SYNTAX
+			Get-SonarrQualityProfile [<CommonParameters>]
+
+			Get-SonarrQualityProfile -Id <String> [<CommonParameters>]
+
+			Get-SonarrQualityProfile -Name <String> [<CommonParameters>]
+
+		.DESCRIPTION
+			Retrieves quality profile information from Sonarr. Can return all quality profiles or filter by specific criteria
+			such as ID or name.
+
+		.PARAMETER Id
+			The quality profile ID to retrieve.
+
+		.PARAMETER Name
+			The name of the quality profile to retrieve.
+
+		.EXAMPLE
+			Get-SonarrQualityProfile
+
+		.EXAMPLE
+			Get-SonarrQualityProfile -Id '1'
+
+		.EXAMPLE
+			Get-SonarrQualityProfile -Name 'HD-1080p'
+
+		.NOTES
+			When no parameters are specified, all quality profiles in Sonarr are returned.
+	#>
+
 	[CmdletBinding(DefaultParameterSetName = 'All')]
 	param(
 		[Parameter(Mandatory = $false, ParameterSetName = 'Id')]
