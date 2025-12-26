@@ -57,7 +57,7 @@ function Get-SonarrQualityProfile
 
 
 	####################################################################################################
-	#Region Define the path, parameters, headers and URI
+	#Region Define the path
 	try
 	{
 		$Path = '/qualityprofile'
@@ -65,10 +65,6 @@ function Get-SonarrQualityProfile
 		{
 			$Path += "/$Id"
 		}
-
-		# Generate the headers and URI
-		$Headers = Get-Headers
-		$Uri = Get-APIUri -RestEndpoint $Path -Params $Params
 	}
 	catch
 	{
@@ -79,10 +75,9 @@ function Get-SonarrQualityProfile
 
 	####################################################################################################
 	#Region make the main request
-	Write-Verbose "Querying: $Uri"
 	try
 	{
-		$Data = Invoke-RestMethod -Uri $Uri -Headers $Headers -Method Get -ContentType 'application/json' -ErrorAction Stop
+		$Data = Invoke-SonarrRequest -Path $Path -Method GET -ErrorAction Stop
 		if($Data)
 		{
 			if($Name)

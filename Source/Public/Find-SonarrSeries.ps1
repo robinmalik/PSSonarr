@@ -70,17 +70,16 @@ function Find-SonarrSeries
 
 	####################################################################################################
 	# If using IMDB, ensure the ID is in the correct format
-	if($ParameterSetName -eq 'IMDBID' -and $IMDBID -notmatch '^tt')
+	if($PSCmdlet.ParameterSetName -eq 'IMDBID' -and $IMDBID -notmatch '^tt')
 	{
 		$IMDBID = 'tt' + $IMDBID
 	}
 
 
 	####################################################################################################
-	#Region Define the path, parameters, headers and URI
+	#Region Define the parameters
 	try
 	{
-		$Path = "/series/lookup"
 		if($Name)
 		{
 			$Params = @{
@@ -90,29 +89,25 @@ function Find-SonarrSeries
 		elseif($IMDBID)
 		{
 			$Params = @{
-				term = "imdb:$($IMDBID)"
+				term = "imdb:$IMDBID"
 			}
 		}
 		elseif($TMDBID)
 		{
 			$Params = @{
-				term = "tmdb:$($TMDBID)"
+				term = "tmdb:$TMDBID"
 			}
 		}
 		elseif($TVDBID)
 		{
 			$Params = @{
-				term = "tvdb:$($TVDBID)"
+				term = "tvdb:$TVDBID"
 			}
 		}
 		else
 		{
 			throw 'You must specify a name, TVDBID, or IMDBID.'
 		}
-
-		# Generate the headers and URI
-		$Headers = Get-Headers
-		$Uri = Get-APIUri -RestEndpoint $Path -Params $Params
 	}
 	catch
 	{
@@ -123,10 +118,9 @@ function Find-SonarrSeries
 
 	####################################################################################################
 	#Region make the main request
-	Write-Verbose "Querying: $Uri"
 	try
 	{
-		$Data = Invoke-RestMethod -Uri $Uri -Headers $Headers -Method Get -ContentType 'application/json' -ErrorAction Stop
+		$Data = Invoke-SonarrRequest -Path '/series/lookup' -Method GET -Params $Params -ErrorAction Stop
 		if($Data)
 		{
 			# If ExactMatch is specified, filter the results to only include the exact match

@@ -69,33 +69,16 @@ function Remove-SonarrSeries
 	process
 	{
 		####################################################################################################
-		#Region Define the path, parameters, headers and URI
+		#Region Define the path and parameters
 		try
 		{
 			$Path = '/series/' + $Id
 
 			# Build query parameters based on switches
-			$Params = @{}
-			if($DeleteFiles)
-			{
-				$Params['deleteFiles'] = 'true'
+			$Params = @{
+				deleteFiles            = $DeleteFiles.ToString().ToLower()
+				addImportListExclusion = $AddImportListExclusion.ToString().ToLower()
 			}
-			else
-			{
-				$Params['deleteFiles'] = 'false'
-			}
-
-			if($AddImportListExclusion)
-			{
-				$Params['addImportListExclusion'] = 'true'
-			}
-			else
-			{
-				$Params['addImportListExclusion'] = 'false'
-			}
-
-			$Uri = Get-APIUri -RestEndpoint $Path -Params $Params
-			$Headers = Get-Headers
 		}
 		catch
 		{
@@ -120,11 +103,11 @@ function Remove-SonarrSeries
 			Write-Verbose -Message "Removing series with ID $Id $(if($DeleteFiles){'and deleting files '})$(if($AddImportListExclusion){'and adding to import exclusions'})"
 			try
 			{
-				Invoke-RestMethod -Uri $Uri -Headers $Headers -Method Delete -ContentType 'application/json' -ErrorAction Stop
+				Invoke-SonarrRequest -Path $Path -Method DELETE -Params $Params -ErrorAction Stop | Out-Null
 			}
 			catch
 			{
-				Write-Error "Failed to remove series with ID $Id. Error: $($_.Exception.Message)"
+				throw $_
 			}
 		}
 		#EndRegion

@@ -67,25 +67,15 @@ function Start-SonarrSeasonSearch
 	#EndRegion
 
 	####################################################################################################
-	#Region Define the path, parameters, headers and URI
+	#Region Define command body
 	try
 	{
-		$Path = "/command"
-
 		# Create the command body for SeasonSearch
 		$CommandBody = @{
 			name         = "SeasonSearch"
 			seriesId     = $SeriesId
 			seasonNumber = $SeasonNumber
 		}
-
-		# Encode the body as JSON
-		$BodyJSON = ($CommandBody | ConvertTo-Json)
-		$BodyEncoded = ([System.Text.Encoding]::UTF8.GetBytes($BodyJSON))
-
-		# Generate the headers and URI
-		$Headers = Get-Headers
-		$Uri = Get-APIUri -RestEndpoint $Path
 	}
 	catch
 	{
@@ -95,11 +85,9 @@ function Start-SonarrSeasonSearch
 
 	####################################################################################################
 	#Region make the main request
-	Write-Verbose "Initiating season search: $Uri"
 	try
 	{
-		$Result = Invoke-RestMethod -Uri $Uri -Headers $Headers -Method Post -ContentType 'application/json' -Body $BodyEncoded -ErrorAction Stop
-		if($Result)
+		$Result = Invoke-SonarrRequest -Path '/command' -Method POST -Body $CommandBody -ErrorAction Stop
 		{
 			Write-Verbose "Season search initiated successfully. Command ID: $($Result.id)"
 			return $Result

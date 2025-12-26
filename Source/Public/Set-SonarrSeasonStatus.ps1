@@ -85,15 +85,7 @@ function Set-SonarrSeasonStatus
 		# Set the monitored status
 		($Series.seasons | Where-Object { $_.seasonNumber -eq $SeasonNumber }).monitored = [bool]$Monitored
 
-		# Encode the body
-		$BodyJSON = ($Series | ConvertTo-Json -Depth 5)
-		$BodyEncoded = ([System.Text.Encoding]::UTF8.GetBytes($BodyJSON))
-
 		$Path = '/series/' + "$Id"
-
-		# Generate the headers and URI
-		$Headers = Get-Headers
-		$Uri = Get-APIUri -RestEndpoint $Path -Params $Params
 	}
 	catch
 	{
@@ -104,10 +96,9 @@ function Set-SonarrSeasonStatus
 
 	####################################################################################################
 	#Region make the main request
-	Write-Verbose "Querying $Uri"
 	try
 	{
-		Invoke-RestMethod -Uri $Uri -Headers $Headers -Method Put -ContentType 'application/json' -Body $BodyEncoded -ErrorAction Stop
+		Invoke-SonarrRequest -Path $Path -Method PUT -Body $Series -ErrorAction Stop
 	}
 	catch
 	{

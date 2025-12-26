@@ -12,7 +12,7 @@
     RootModule        = 'PSSonarr.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.0.5'
+    ModuleVersion     = '0.0.6'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -72,13 +72,19 @@
     FunctionsToExport = @(
         'Add-SonarrSeries'
         'Find-SonarrSeries'
+        'Get-SonarrHealth'
+        'Get-SonarrIndexer'
         'Get-SonarrQualityProfile'
+        'Get-SonarrQueue'
+        'Get-SonarrRootFolder'
         'Get-SonarrSeries'
+        'Get-SonarrSystem'
         'Remove-SonarrSeries'
-        'Start-SonarrSeasonSearch'
-        'Set-SonarrSeasonStatus'
-        'Set-SonarrSeriesStatus'
         'Set-SonarrConfiguration'
+        'Set-SonarrSeasonStatus'
+        'Set-SonarrSeriesQualityProfile'
+        'Set-SonarrSeriesStatus'
+        'Start-SonarrSeasonSearch'
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.

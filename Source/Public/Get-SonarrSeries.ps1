@@ -88,14 +88,14 @@ function Get-SonarrSeries
 
 	####################################################################################################
 	# If using IMDB, ensure the ID is in the correct format
-	if($ParameterSetName -eq 'IMDBID' -and $IMDBID -notmatch '^tt')
+	if($PSCmdlet.ParameterSetName -eq 'IMDBID' -and $IMDBID -notmatch '^tt')
 	{
 		$IMDBID = 'tt' + $IMDBID
 	}
 
 
 	####################################################################################################
-	#Region Define the path, parameters, headers and URI
+	#Region Define the path
 	try
 	{
 		$Path = '/series'
@@ -103,10 +103,6 @@ function Get-SonarrSeries
 		{
 			$Path += "/$Id"
 		}
-
-		# Generate the headers and URI
-		$Headers = Get-Headers
-		$Uri = Get-APIUri -RestEndpoint $Path -Params $Params
 	}
 	catch
 	{
@@ -117,10 +113,9 @@ function Get-SonarrSeries
 
 	####################################################################################################
 	#Region make the main request
-	Write-Verbose "Querying: $Uri"
 	try
 	{
-		$Data = Invoke-RestMethod -Uri $Uri -Headers $Headers -Method Get -ContentType 'application/json' -ErrorAction Stop
+		$Data = Invoke-SonarrRequest -Path $Path -Method GET -ErrorAction Stop
 		if($Data)
 		{
 			# Filter results based on parameters if specified

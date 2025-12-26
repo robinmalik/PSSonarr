@@ -15,6 +15,9 @@ function Add-SonarrSeries
 			Adds a series to Sonarr using external database IDs. The function will search for the series using the provided ID,
 			then add it to Sonarr with the specified quality profile and monitoring options.
 
+			Note: This function only targets settings for the show as a whole (e.g. quality profile and monitoring new seasons) but
+			not individual seasons; for this use Set-SonarrSeasonStatus after adding the series.
+
 		.PARAMETER IMDBID
 			The IMDB ID of the series to add. Can include or exclude the 'tt' prefix.
 
@@ -45,7 +48,7 @@ function Add-SonarrSeries
 
 	[CmdletBinding()]
 	param(
-		[Parameter(Mandatory = $true, ParameterSetName = 'IMDB')]
+		[Parameter(Mandatory = $true, ParameterSetName = 'IMDBID')]
 		[ValidatePattern('^(tt)?\d{5,9}$')]
 		[String]$IMDBID,
 
@@ -83,7 +86,7 @@ function Add-SonarrSeries
 
 	####################################################################################################
 	# If using IMDB, ensure the ID is in the correct format
-	if($ParameterSetName -eq 'IMDBID' -and $IMDBID -notmatch '^tt')
+	if($PSCmdlet.ParameterSetName -eq 'IMDBID' -and $IMDBID -notmatch '^tt')
 	{
 		$IMDBID = 'tt' + $IMDBID
 	}
@@ -109,8 +112,25 @@ function Add-SonarrSeries
 
 		if($Series)
 		{
-			Write-Warning "Series already exists in Sonarr!"
-			return
+			Write-Verbose -Message "Series already exists in Sonarr with ID $($Series.id)."
+
+			if($Series.qualityProfileId -ne $QualityProfileId)
+			{
+				Write-Warning -Message "Series already exists but has a different quality profile (Current: $($Series.qualityProfileId), Desired: $QualityProfileId). Use 'Set-SonarrSeriesQualityProfile' to update the quality profile."
+
+			}
+
+			if($Series.monitored -eq $false -and $MonitorOption -ne 'none')
+			{
+				Write-Warning -Message "Series already exists but is unmonitored. Use 'Set-SonarrSeriesStatus' to change series monitoring status, and 'Set-SonarrSeasonStatus' to change season monitoring status."
+			}
+
+			if($Series.monitored -eq $true -and $MonitorOption -eq 'none')
+			{
+				Write-Warning -Message "Series already exists and is monitored. Use 'Set-SonarrSeriesStatus' to change series monitoring status, and 'Set-SonarrSeasonStatus' to change season monitoring status."
+			}
+
+			return $Series
 		}
 	}
 	catch
@@ -124,24 +144,24 @@ function Add-SonarrSeries
 	#Region Define the path, parameters, headers and URI
 	try
 	{
-		$Path = '/series/lookup'
-
 		if($TVDBID)
 		{
 			$Params = @{
-				term = "tvdb%3A$($TVDBID)"
+				term = "tvdb:$TVDBID"
 			}
 		}
 		elseif($IMDBID)
 		{
 			$Params = @{
-				term = "imdb%3A$($IMDBID)"
+				term = "imdb:$IMDBID"
 			}
 		}
-
-		# Generate the headers and URI
-		$Headers = Get-Headers
-		$Uri = Get-APIUri -RestEndpoint $Path -Params $Params
+		elseif($TMDBID)
+		{
+			$Params = @{
+				term = "tmdb:$TMDBID"
+			}
+		}
 	}
 	catch
 	{
@@ -226,11 +246,7 @@ function Add-SonarrSeries
 	try
 	{
 		$Data = $Series | ConvertTo-Json -Depth 5
-		$DataEncoded = ([System.Text.Encoding]::UTF8.GetBytes($Data))
-
-		$Headers = Get-Headers
-		$Path = '/series'
-		$Uri = Get-APIUri -RestEndpoint $Path
+		Write-Debug -Message "Series data to be posted: $Data"
 	}
 	catch
 	{
@@ -241,10 +257,11 @@ function Add-SonarrSeries
 
 	####################################################################################################
 	#Region make the main request
-	Write-Verbose "Adding: $Uri"
+	Write-Verbose "Adding series to Sonarr"
 	try
 	{
-		Invoke-RestMethod -Uri $Uri -Headers $Headers -Method Post -ContentType "application/json" -Body $DataEncoded -ErrorAction Stop
+		$Result = Invoke-SonarrRequest -Path '/series' -Method POST -Body $Data -ErrorAction Stop
+		return $Result
 	}
 	catch
 	{

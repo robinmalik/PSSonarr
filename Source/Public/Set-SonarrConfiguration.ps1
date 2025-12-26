@@ -104,8 +104,11 @@ function Set-SonarrConfiguration
 	}
 
 	####################################################################################################
-	# Set all servers to Default = $false:
-	$ConfigData | ForEach-Object ( { $_.Default = $false } )
+	# If this server is being set as default, clear the default flag from all other servers:
+	if($Default -eq $true)
+	{
+		$ConfigData | ForEach-Object { $_.Default = $false }
+	}
 
 	$Found = $false
 	foreach($Entry in $ConfigData)
