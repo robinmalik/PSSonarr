@@ -12,7 +12,7 @@ schema: 2.0.0
 
 ## SYNTAX
 
-### IMDB
+### IMDBID
 ```
 Add-SonarrSeries -IMDBID <String> -QualityProfileId <Int32> [-MonitorOption <Object>] [-Search]
  [-ProgressAction <ActionPreference>] [<CommonParameters>]
@@ -49,7 +49,7 @@ PS C:\> {{ Add example code here }}
 
 ```yaml
 Type: String
-Parameter Sets: IMDB
+Parameter Sets: IMDBID
 Aliases:
 
 Required: True
