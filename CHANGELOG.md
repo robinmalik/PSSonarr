@@ -1,3 +1,7 @@
+## [0.0.7] - 2025-12-27
+
+-   🐛 [Fix] `Start-SonarrSeasonSearch` was missing an `if` clause. Removed if/else to just return the search result object.
+
 ## [0.0.6] - 2025-12-26
 
 -   🔨 [Changed] All cmdlets now use `Invoke-SonarrRequest` instead of manual `Invoke-RestMethod`

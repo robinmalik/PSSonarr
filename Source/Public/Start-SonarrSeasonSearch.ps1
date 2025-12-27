@@ -88,15 +88,7 @@ function Start-SonarrSeasonSearch
 	try
 	{
 		$Result = Invoke-SonarrRequest -Path '/command' -Method POST -Body $CommandBody -ErrorAction Stop
-		{
-			Write-Verbose "Season search initiated successfully. Command ID: $($Result.id)"
-			return $Result
-		}
-		else
-		{
-			Write-Warning -Message "Failed to initiate season search for season $SeasonNumber in series ID $SeriesId."
-			return
-		}
+		return $Result
 	}
 	catch
 	{
