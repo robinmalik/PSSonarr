@@ -141,53 +141,30 @@ function Add-SonarrSeries
 
 
 	####################################################################################################
-	#Region Define the path, parameters, headers and URI
+	#Region Search for the series (we need to get the data before adding it)
+	Write-Verbose -Message "Using Sonarr lookup service to find the series"
 	try
 	{
 		if($TVDBID)
 		{
 			$Params = @{
-				term = "tvdb:$TVDBID"
+				'TVDBID' = $TVDBID
 			}
 		}
 		elseif($IMDBID)
 		{
 			$Params = @{
-				term = "imdb:$IMDBID"
+				'IMDBID' = $IMDBID
 			}
 		}
 		elseif($TMDBID)
 		{
 			$Params = @{
-				term = "tmdb:$TMDBID"
+				'TMDBID' = $TMDBID
 			}
 		}
-	}
-	catch
-	{
-		throw $_
-	}
-	#EndRegion
 
-
-	####################################################################################################
-	#Region Search for the series (we need to get the data before adding it)
-	Write-Verbose -Message "Using Sonarr lookup service to find the series"
-	try
-	{
-		if($IMDBID)
-		{
-			$Series = Find-SonarrSeries -IMDBID $IMDBID -ErrorAction Stop
-		}
-		elseif($TMDBID)
-		{
-			$Series = Find-SonarrSeries -TMDBID $TMDBID -ErrorAction Stop
-		}
-		elseif($TVDBID)
-		{
-			$Series = Find-SonarrSeries -TVDBID $TVDBID -ErrorAction Stop
-		}
-
+		$Series = Find-SonarrSeries @Params -ErrorAction Stop
 		if(!$Series)
 		{
 			throw "Could not find the series to add"

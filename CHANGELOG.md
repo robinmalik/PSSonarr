@@ -1,3 +1,13 @@
+## [0.0.9] - 2026-07-26
+
+-   🔨 [Changed] `Add-SonarrSeries` - Removed multiple if/else clauses using splatting.
+-   🔨 [Changed] `Invoke-SonarrRequest` - Removed overly complex error handling/debugging and replaced with a standard throw $_.
+-   ✨ [New] `Get-SonarrSeriesEpisode` - Get all episodes for a specific series.
+
+## [0.0.8] - 2026-01-02
+
+-   🐛 [Fix] `Find-SonarrSeries` - Fixed issue whereby TMDB was returning multiple results when searching by ID (e.g. when passing a valid TMDB ID, a series with the same ID value for TVDB id was also returned).
+
 ## [0.0.7] - 2025-12-27
 
 -   🐛 [Fix] `Start-SonarrSeasonSearch` was missing an `if` clause. Removed if/else to just return the search result object.

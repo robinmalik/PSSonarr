@@ -129,6 +129,27 @@ function Find-SonarrSeries
 				$Data = $Data | Where-Object { $_.title -eq $Name }
 			}
 
+			# When searching by a specific ID, filter to ensure only the correct ID type matches
+			# This prevents false positives where the searched ID matches a different ID field
+			if($TMDBID)
+			{
+				$Data = $Data | Where-Object { $_.tmdbId -eq [int]$TMDBID }
+			}
+			elseif($TVDBID)
+			{
+				$Data = $Data | Where-Object { $_.tvdbId -eq [int]$TVDBID }
+			}
+			elseif($IMDBID)
+			{
+				$Data = $Data | Where-Object { $_.imdbId -eq $IMDBID }
+			}
+
+			# If the parameterset matches "ID" and there is more than 1 result, throw an error
+			if($PSCmdlet.ParameterSetName -match 'ID' -and $Data.Count -gt 1)
+			{
+				throw "Multiple series found for the provided ID. This should not happen!"
+			}
+
 			return $Data
 		}
 		else

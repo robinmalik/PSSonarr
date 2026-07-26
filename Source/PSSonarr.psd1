@@ -9,31 +9,31 @@
 @{
 
     # Script module or binary module file associated with this manifest.
-    RootModule        = 'PSSonarr.psm1'
+    RootModule           = 'PSSonarr.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.0.7'
+    ModuleVersion        = '0.0.9'
 
     # Supported PSEditions
-    # CompatiblePSEditions = @()
+    CompatiblePSEditions = 'Core', 'Desktop'
 
     # ID used to uniquely identify this module
-    GUID              = 'f7b79f9e-c403-4085-9409-67d31ed7d2a5'
+    GUID                 = 'f7b79f9e-c403-4085-9409-67d31ed7d2a5'
 
     # Author of this module
-    Author            = 'Robin Malik'
+    Author               = 'Robin Malik'
 
     # Company or vendor of this module
-    CompanyName       = 'N/A'
+    CompanyName          = 'N/A'
 
     # Copyright statement for this module
-    Copyright         = '(c) Robin Malik. All rights reserved.'
+    Copyright            = '(c) Robin Malik. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'Sonarr helper module'
+    Description          = 'Sonarr helper module'
 
     # Minimum version of the Windows PowerShell engine required by this module
-    PowerShellVersion = '5.1'
+    PowerShellVersion    = '5.1'
 
     # Name of the Windows PowerShell host required by this module
     # PowerShellHostName = ''
@@ -69,7 +69,7 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @(
+    FunctionsToExport    = @(
         'Add-SonarrSeries'
         'Find-SonarrSeries'
         'Get-SonarrHealth'
@@ -78,6 +78,7 @@
         'Get-SonarrQueue'
         'Get-SonarrRootFolder'
         'Get-SonarrSeries'
+        'Get-SonarrSeriesEpisode'
         'Get-SonarrSystem'
         'Remove-SonarrSeries'
         'Set-SonarrConfiguration'
@@ -88,13 +89,13 @@
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport   = @()
+    CmdletsToExport      = @()
 
     # Variables to export from this module
-    VariablesToExport = @()
+    VariablesToExport    = @()
 
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    AliasesToExport   = @()
+    AliasesToExport      = @()
 
     # DSC resources to export from this module
     # DscResourcesToExport = @()
@@ -106,7 +107,7 @@
     # FileList = @()
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
-    PrivateData       = @{
+    PrivateData          = @{
 
         PSData = @{
 
