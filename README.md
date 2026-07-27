@@ -1,10 +1,12 @@
 # About
 
-A PowerShell module to help with automation around the Sonarr application. Not tested on Linux (yet!). Similar to [PSRadarr](https://github.com/robinmalik/PSRadarr).
+A PowerShell module to help with automation around the Sonarr application. Similar to [PSRadarr](https://github.com/robinmalik/PSRadarr).
+
+Note: There is a more comprehensive C# based PowerShell module available at: [https://github.com/Yevrag35/PoshSonarr](https://github.com/Yevrag35/PoshSonarr) that you may wish to check out, before using this native PowerShell module.
 
 See the [Changelog](CHANGELOG.md) for a list of changes.
 
-<br>
+---
 
 # Getting Started:
 
@@ -39,8 +41,8 @@ $Search = Find-SonarrSeries -Name 'The Simpsons' -ExactMatch
 Add-SonarrSeries -IMDBID $Search.imdbId -MonitorOption 'latest' -Search
 ```
 
-
-
-# Known Issues / To Do:
-
-* Search needs more refinement; for example '-ExactMatch' may still return multiple results if there are multiple series of the same name.
+**Switching between Sonarr servers**:
+This assumes you have saved multiple servers using `Set-SonarrConfiguration`. The `-Server` parameter supports tab completion.
+```powershell
+Set-SonarrDefaultServer -Server 'myserver.domain.com'
+```

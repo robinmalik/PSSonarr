@@ -12,7 +12,7 @@
     RootModule           = 'PSSonarr.psm1'
 
     # Version number of this module.
-    ModuleVersion        = '0.0.9'
+    ModuleVersion        = '0.0.10'
 
     # Supported PSEditions
     CompatiblePSEditions = 'Core', 'Desktop'
@@ -80,8 +80,11 @@
         'Get-SonarrSeries'
         'Get-SonarrSeriesEpisode'
         'Get-SonarrSystem'
+        'Get-SonarrUpcomingEpisodes'
+        'Invoke-SonarrSeriesRefresh'
         'Remove-SonarrSeries'
         'Set-SonarrConfiguration'
+        'Set-SonarrDefaultServer'
         'Set-SonarrSeasonStatus'
         'Set-SonarrSeriesQualityProfile'
         'Set-SonarrSeriesStatus'
