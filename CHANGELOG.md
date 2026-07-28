@@ -8,11 +8,10 @@
 - 💥 [Breaking] `Start-SonarrSeasonSearch` renamed to `Invoke-SonarrSeriesSearch`, and `-SeasonNumber` is now optional. Omitting it searches the entire series (Sonarr's `SeriesSearch` command) rather than a single season; supplying it searches that season only, as before (`SeasonSearch`). `-SeriesId` gained an `Id` alias and pipeline input by property name, so `Get-SonarrSeries | Invoke-SonarrSeriesSearch` works. The command also now supports `-WhatIf`/`-Confirm`. The old command name is gone; update any scripts that used it. Calls are otherwise unchanged: passing both `-SeriesId` and `-SeasonNumber` behaves as before.
 - 🐛 [Fix] `Get-SonarrSeries` - Now passes `-SuppressWhatIf` on its GET. Without it, running any `ShouldProcess`-capable caller under `-WhatIf` suppressed the lookup, so the caller reported the series as missing instead of previewing the action.
 
-
 ## [0.0.10] - 2026-07-26
 
 - ✨ [New] `Get-SonarrUpcomingEpisodes` - Get episodes airing within a date range via the calendar endpoint. Defaults to the next 7 days.
-- ✨ [New] `Set-SonarrDefaultServer` - Set the default Sonarr server to use.
+`Set-SonarrDefaultServer` - Set the default Sonarr server to use.
 - ✨ [New] `Invoke-SonarrSeriesRefresh` - Refresh a series in Sonarr.
 
 ## [0.0.9] - 2026-07-26
