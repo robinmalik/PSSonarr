@@ -1,4 +1,4 @@
-function Convert-SmartPunctuation
+﻿function Convert-SmartPunctuation
 {
 	<#
 		.SYNOPSIS

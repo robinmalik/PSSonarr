@@ -1,3 +1,14 @@
+## [1.0.0] - 2026-07-28
+
+- 💥 [Breaking] `Set-SonarrConfiguration`, `Set-SonarrDefaultServer` and `Get-SonarrDefaultServer` have been removed in favour of the context functions. Existing `PSSonarrConfig.json` files are migrated to named contexts automatically on first use; the old file is left in place for you to delete.
+- ✨ [New] `Save-SonarrContext`, `Get-SonarrContext`, `Select-SonarrContext`, `Remove-SonarrContext` - Named contexts replace the single configuration file. A context is identified by a name of your choosing rather than by its server name, so multiple Sonarr instances on the same host (differing only by port) can now be saved and switched between.
+- ✨ [New] `Get-SonarrQualityDefinition` - Get the quality definitions configured in Sonarr.
+- ✨ [New] `New-SonarrQualityProfile` / `Remove-SonarrQualityProfile` - Create and remove quality profiles.
+- 🐛 [Fix] `Convert-SmartPunctuation` - Re-saved with a UTF-8 BOM. The file's own help noted that a BOM was required, but it was saved without one, so Windows PowerShell 5.1 read it as ANSI and corrupted the literal smart characters in its `-replace` patterns - meaning it silently normalised nothing on the minimum supported edition.
+- 💥 [Breaking] `Start-SonarrSeasonSearch` renamed to `Invoke-SonarrSeriesSearch`, and `-SeasonNumber` is now optional. Omitting it searches the entire series (Sonarr's `SeriesSearch` command) rather than a single season; supplying it searches that season only, as before (`SeasonSearch`). `-SeriesId` gained an `Id` alias and pipeline input by property name, so `Get-SonarrSeries | Invoke-SonarrSeriesSearch` works. The command also now supports `-WhatIf`/`-Confirm`. The old command name is gone; update any scripts that used it. Calls are otherwise unchanged: passing both `-SeriesId` and `-SeasonNumber` behaves as before.
+- 🐛 [Fix] `Get-SonarrSeries` - Now passes `-SuppressWhatIf` on its GET. Without it, running any `ShouldProcess`-capable caller under `-WhatIf` suppressed the lookup, so the caller reported the series as missing instead of previewing the action.
+
+
 ## [0.0.10] - 2026-07-26
 
 - ✨ [New] `Get-SonarrUpcomingEpisodes` - Get episodes airing within a date range via the calendar endpoint. Defaults to the next 7 days.

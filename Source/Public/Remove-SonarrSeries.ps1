@@ -4,9 +4,6 @@ function Remove-SonarrSeries
 		.SYNOPSIS
 			Removes a series from Sonarr.
 
-		.SYNTAX
-			Remove-SonarrSeries -Id <String> [-DeleteFiles] [-AddImportListExclusion] [-WhatIf] [-Confirm] [<CommonParameters>]
-
 		.DESCRIPTION
 			Removes a series from Sonarr using the series ID. This function supports WhatIf and Confirm parameters
 			for safe execution. Optionally can delete associated files and add the series to import list exclusions.

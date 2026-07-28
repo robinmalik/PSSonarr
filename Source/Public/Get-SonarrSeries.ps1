@@ -4,19 +4,6 @@ function Get-SonarrSeries
 		.SYNOPSIS
 			Retrieves series from Sonarr.
 
-		.SYNTAX
-			Get-SonarrSeries [<CommonParameters>]
-
-			Get-SonarrSeries -Id <String> [<CommonParameters>]
-
-			Get-SonarrSeries -Name <String> [<CommonParameters>]
-
-			Get-SonarrSeries -IMDBID <String> [<CommonParameters>]
-
-			Get-SonarrSeries -TMDBID <String> [<CommonParameters>]
-
-			Get-SonarrSeries -TVDBID <String> [<CommonParameters>]
-
 		.DESCRIPTION
 			Retrieves series information from Sonarr. Can return all series or filter by specific criteria
 			such as ID, name, or external database IDs.
@@ -34,7 +21,8 @@ function Get-SonarrSeries
 			The TMDB (The Movie Database) ID of the series to retrieve.
 
 		.PARAMETER TVDBID
-			The TVDB (TheTVDB) ID of the series to retrieve.
+			The TVDB (TheTVDB) ID of the series to retrieve. Sonarr filters on this server side, so only the
+			matching series is returned over the wire.
 
 		.EXAMPLE
 			Get-SonarrSeries
@@ -50,6 +38,10 @@ function Get-SonarrSeries
 
 		.NOTES
 			When no parameters are specified, all series in Sonarr are returned.
+
+			-Id and -TVDBID are resolved by Sonarr itself. -Name, -IMDBID and -TMDBID are not supported as
+			filters by the Sonarr API, so the full series list is retrieved and filtered locally; prefer
+			-TVDBID where you have the choice and the library is large.
 	#>
 
 	[CmdletBinding(DefaultParameterSetName = 'All')]
@@ -95,13 +87,21 @@ function Get-SonarrSeries
 
 
 	####################################################################################################
-	#Region Define the path
+	#Region Define the path and any server side filtering
+	# Sonarr only filters the series list server side by TVDB ID (and by its own ID, via a dedicated route).
+	# Everything else has to come back over the wire in full and be filtered below.
 	try
 	{
 		$Path = '/series'
+		$Params = @{}
+
 		if($PSCmdlet.ParameterSetName -eq 'Id' -and $Id)
 		{
 			$Path += "/$Id"
+		}
+		elseif($PSCmdlet.ParameterSetName -eq 'TVDBID')
+		{
+			$Params['tvdbId'] = $TVDBID
 		}
 	}
 	catch
@@ -115,7 +115,9 @@ function Get-SonarrSeries
 	#Region make the main request
 	try
 	{
-		$Data = Invoke-SonarrRequest -Path $Path -Method GET -ErrorAction Stop
+		# -SuppressWhatIf because this is a read: without it, running any ShouldProcess-capable caller under
+		# -WhatIf suppresses the lookup and the caller sees "not found" rather than a preview.
+		$Data = Invoke-SonarrRequest -Path $Path -Method GET -Params $Params -SuppressWhatIf -ErrorAction Stop
 		if($Data)
 		{
 			# Filter results based on parameters if specified
@@ -139,6 +141,8 @@ function Get-SonarrSeries
 				}
 				'TVDBID'
 				{
+					# Already filtered server side. Repeating it here costs nothing against a single result
+					# and keeps the output correct if an instance ever ignores the tvdbId parameter:
 					$Data = $Data | Where-Object { $_.tvdbId -eq $TVDBID }
 				}
 			}

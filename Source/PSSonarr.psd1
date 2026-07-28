@@ -12,7 +12,7 @@
     RootModule           = 'PSSonarr.psm1'
 
     # Version number of this module.
-    ModuleVersion        = '0.0.10'
+    ModuleVersion        = '1.0.0'
 
     # Supported PSEditions
     CompatiblePSEditions = 'Core', 'Desktop'
@@ -63,7 +63,7 @@
     # TypesToProcess = @()
 
     # Format files (.ps1xml) to be loaded when importing this module
-    # FormatsToProcess = @()
+    FormatsToProcess     = 'PSSonarr.Format.ps1xml'
 
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
     # NestedModules = @()
@@ -72,8 +72,10 @@
     FunctionsToExport    = @(
         'Add-SonarrSeries'
         'Find-SonarrSeries'
+        'Get-SonarrContext'
         'Get-SonarrHealth'
         'Get-SonarrIndexer'
+        'Get-SonarrQualityDefinition'
         'Get-SonarrQualityProfile'
         'Get-SonarrQueue'
         'Get-SonarrRootFolder'
@@ -82,13 +84,16 @@
         'Get-SonarrSystem'
         'Get-SonarrUpcomingEpisodes'
         'Invoke-SonarrSeriesRefresh'
+        'Invoke-SonarrSeriesSearch'
+        'New-SonarrQualityProfile'
+        'Remove-SonarrContext'
+        'Remove-SonarrQualityProfile'
         'Remove-SonarrSeries'
-        'Set-SonarrConfiguration'
-        'Set-SonarrDefaultServer'
+        'Save-SonarrContext'
+        'Select-SonarrContext'
         'Set-SonarrSeasonStatus'
         'Set-SonarrSeriesQualityProfile'
         'Set-SonarrSeriesStatus'
-        'Start-SonarrSeasonSearch'
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.

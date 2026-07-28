@@ -1,46 +1,43 @@
 function Get-SonarrQueue {
     <#
-    .SYNOPSIS
-        Gets the download queue from Sonarr.
+		.SYNOPSIS
+			Gets the download queue from Sonarr.
 
-    .DESCRIPTION
-        Returns items currently in the download queue, including active downloads
-        and queued items. Supports pagination and filtering.
+		.DESCRIPTION
+			Returns items currently in the download queue, including active downloads
+			and queued items. Supports pagination and filtering.
 
-    .PARAMETER Page
-        The page number to retrieve (for pagination). Defaults to 1.
+		.PARAMETER Page
+			The page number to retrieve (for pagination). Defaults to 1.
 
-    .PARAMETER PageSize
-        The number of items per page. Defaults to 20.
+		.PARAMETER PageSize
+			The number of items per page. Defaults to 20.
 
-    .PARAMETER IncludeUnknownSeriesItems
-        Include downloads that don't match any known series.
+		.PARAMETER IncludeUnknownSeriesItems
+			Include downloads that don't match any known series.
 
-    .PARAMETER Server
-        The Sonarr server to query. If not specified, uses the default configured server.
+		.EXAMPLE
+			Get-SonarrQueue
 
-    .EXAMPLE
-        Get-SonarrQueue
+			Returns the first 20 items in the download queue.
 
-        Returns the first 20 items in the download queue.
+		.EXAMPLE
+			Get-SonarrQueue -PageSize 50
 
-    .EXAMPLE
-        Get-SonarrQueue -PageSize 50
+			Returns the first 50 items in the download queue.
 
-        Returns the first 50 items in the download queue.
+		.EXAMPLE
+			Get-SonarrQueue -Page 2 -PageSize 10
 
-    .EXAMPLE
-        Get-SonarrQueue -Page 2 -PageSize 10
+			Returns items 11-20 from the download queue.
 
-        Returns items 11-20 from the download queue.
+		.EXAMPLE
+			Get-SonarrQueue -IncludeUnknownSeriesItems
 
-    .EXAMPLE
-        Get-SonarrQueue -IncludeUnknownSeriesItems
+			Returns queue items including downloads that don't match any known series.
 
-        Returns queue items including downloads that don't match any known series.
-
-    .NOTES
-        Requires Sonarr v3+ API.
+		.NOTES
+			Queries the active context. Use Select-SonarrContext to target a different instance.
     #>
     [CmdletBinding()]
     param (
@@ -51,24 +48,14 @@ function Get-SonarrQueue {
         [int]$PageSize = 20,
 
         [Parameter(Mandatory = $false)]
-        [switch]$IncludeUnknownSeriesItems,
-
-        [Parameter(Mandatory = $false)]
-        [string]$Server
+        [switch]$IncludeUnknownSeriesItems
     )
 
 	####################################################################################################
 	#Region Import configuration
 	try
 	{
-		if($Server)
-		{
-			Import-Configuration -Server $Server -ErrorAction Stop
-		}
-		else
-		{
-			Import-Configuration -ErrorAction Stop
-		}
+		Import-Configuration -ErrorAction Stop
 	}
 	catch
 	{

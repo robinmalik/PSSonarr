@@ -4,15 +4,6 @@ function Find-SonarrSeries
 		.SYNOPSIS
 			Search to find a series in order to add to Sonarr.
 
-		.SYNTAX
-			Find-SonarrSeries -Name <String> [-ExactMatch] [<CommonParameters>]
-
-			Find-SonarrSeries -IMDBID <String> [<CommonParameters>]
-
-			Find-SonarrSeries -TMDBID <String> [<CommonParameters>]
-
-			Find-SonarrSeries -TVDBID <String> [<CommonParameters>]
-
 		.DESCRIPTION
 			This uses the lookup service within Sonarr to search for a series by name, TVDB ID, or IMDB ID.
 			It does not search your local Sonarr library, but rather The Movie Database (TMDb).

@@ -4,13 +4,6 @@ function Add-SonarrSeries
 		.SYNOPSIS
 			Add a series to Sonarr by IMDB, TMDB, or TVDB ID.
 
-		.SYNTAX
-			Add-SonarrSeries -IMDBID <String> -QualityProfileId <Int32> [-MonitorOption <String>] [-Search] [<CommonParameters>]
-
-			Add-SonarrSeries -TMDBID <String> -QualityProfileId <Int32> [-MonitorOption <String>] [-Search] [<CommonParameters>]
-
-			Add-SonarrSeries -TVDBID <String> -QualityProfileId <Int32> [-MonitorOption <String>] [-Search] [<CommonParameters>]
-
 		.DESCRIPTION
 			Adds a series to Sonarr using external database IDs. The function will search for the series using the provided ID,
 			then add it to Sonarr with the specified quality profile and monitoring options.

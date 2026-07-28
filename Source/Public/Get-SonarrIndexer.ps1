@@ -1,40 +1,37 @@
 function Get-SonarrIndexer
 {
 	<#
-    .SYNOPSIS
-        Gets indexer configuration from Sonarr.
+		.SYNOPSIS
+			Gets indexer configuration from Sonarr.
 
-    .DESCRIPTION
-        Returns configured indexers in Sonarr. Can filter by indexer ID or name.
+		.DESCRIPTION
+			Returns configured indexers in Sonarr. Can filter by indexer ID or name.
 
-    .PARAMETER Id
-        The ID of a specific indexer to retrieve.
+		.PARAMETER Id
+			The ID of a specific indexer to retrieve.
 
-    .PARAMETER Name
-        The name of a specific indexer to retrieve. Supports wildcards.
+		.PARAMETER Name
+			The name of a specific indexer to retrieve. Supports wildcards.
 
-    .EXAMPLE
-        Get-SonarrIndexer
+		.EXAMPLE
+			Get-SonarrIndexer
 
-        Returns all configured indexers from the default Sonarr server.
+			Returns all configured indexers from the default Sonarr server.
 
-    .EXAMPLE
-        Get-SonarrIndexer -Id 1
+		.EXAMPLE
+			Get-SonarrIndexer -Id 1
 
-        Returns the indexer with ID 1.
+			Returns the indexer with ID 1.
 
-    .EXAMPLE
-        Get-SonarrIndexer -Name "NZBgeek"
+		.EXAMPLE
+			Get-SonarrIndexer -Name "NZBgeek"
 
-        Returns the indexer named "NZBgeek".
+			Returns the indexer named "NZBgeek".
 
-    .EXAMPLE
-        Get-SonarrIndexer -Name "*Usenet*"
+		.EXAMPLE
+			Get-SonarrIndexer -Name "*Usenet*"
 
-        Returns all indexers with "Usenet" in their name.
-
-    .NOTES
-        Requires Sonarr v3+ API.
+			Returns all indexers with "Usenet" in their name.
     #>
 	[CmdletBinding(DefaultParameterSetName = 'All')]
 	param (

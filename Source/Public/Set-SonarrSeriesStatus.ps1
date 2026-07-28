@@ -4,9 +4,6 @@ function Set-SonarrSeriesStatus
 		.SYNOPSIS
 			Sets the monitoring status of a series in Sonarr.
 
-		.SYNTAX
-			Set-SonarrSeriesStatus -Id <Int32> -SeasonNumber <Int32> -Monitored <Boolean> [<CommonParameters>]
-
 		.DESCRIPTION
 			Updates the monitoring status of a series in Sonarr. When a series is monitored, Sonarr will automatically
 			search for and download episodes. When unmonitored, episodes will not be automatically downloaded.

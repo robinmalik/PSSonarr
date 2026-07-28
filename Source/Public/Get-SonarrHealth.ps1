@@ -1,26 +1,25 @@
 function Get-SonarrHealth
 {
 	<#
-    .SYNOPSIS
-        Gets health status and warnings from Sonarr.
+		.SYNOPSIS
+			Gets health status and warnings from Sonarr.
 
-    .DESCRIPTION
-        Returns health check results from Sonarr, including any warnings or errors
-        related to system configuration, disk space, updates, etc.
+		.DESCRIPTION
+			Returns health check results from Sonarr, including any warnings or errors
+			related to system configuration, disk space, updates, etc.
 
-    .PARAMETER Server
-        The Sonarr server to query. If not specified, uses the default configured server.
+		.EXAMPLE
+			Get-SonarrHealth
 
-    .EXAMPLE
-        Get-SonarrHealth
+			Returns all health check results from the active Sonarr context.
 
-        Returns all health check results from the default Sonarr server.
+		.EXAMPLE
+			Get-SonarrHealth | Where-Object { $_.type -eq 'error' }
 
-    .EXAMPLE
-        Get-SonarrHealth
+			Returns only the health checks that Sonarr has raised as errors.
 
-    .NOTES
-        Requires Sonarr v3+ API.
+		.NOTES
+			Queries the active context. Use Select-SonarrContext to target a different instance.
     #>
 	[CmdletBinding()]
 	param (

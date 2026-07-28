@@ -4,9 +4,6 @@ function Set-SonarrSeasonStatus
 		.SYNOPSIS
 			Sets the monitoring status of a specific season in Sonarr.
 
-		.SYNTAX
-			Set-SonarrSeasonStatus -Id <Int32> -SeasonNumber <Int32> -Monitored <Boolean> [<CommonParameters>]
-
 		.DESCRIPTION
 			Updates the monitoring status of a specific season for a series in Sonarr. When a season is monitored,
 			Sonarr will automatically search for and download episodes from that season. When unmonitored,

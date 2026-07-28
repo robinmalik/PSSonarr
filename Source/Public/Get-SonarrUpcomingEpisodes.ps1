@@ -4,9 +4,6 @@ function Get-SonarrUpcomingEpisodes
 		.SYNOPSIS
 			Retrieves upcoming episodes from the Sonarr calendar.
 
-		.SYNTAX
-			Get-SonarrUpcomingEpisodes [-StartDate <DateTime>] [-EndDate <DateTime>] [-IncludeUnmonitored] [-IncludeSeriesTitle] [<CommonParameters>]
-
 		.DESCRIPTION
 			Queries the Sonarr calendar endpoint (GET /api/v3/calendar) and returns the episodes
 			airing between StartDate and EndDate.
@@ -24,12 +21,6 @@ function Get-SonarrUpcomingEpisodes
 			Include episodes of series/seasons that are not monitored. By default only monitored
 			episodes are returned (unmonitored=false).
 
-		.PARAMETER IncludeSeriesTitle
-			Adds a 'seriesTitle' property to each episode. Sonarr resolves this server-side within
-			the same request (includeSeries=true), so no additional calls are made. The embedded
-			series object itself is removed from the output; use Get-SonarrSeries -Id <seriesId>
-			if the full series record is needed.
-
 		.EXAMPLE
 			Get-SonarrUpcomingEpisodes
 
@@ -46,7 +37,7 @@ function Get-SonarrUpcomingEpisodes
 			Returns all episodes airing in the next 30 days, including unmonitored ones.
 
 		.EXAMPLE
-			Get-SonarrUpcomingEpisodes -IncludeSeriesTitle |
+			Get-SonarrUpcomingEpisodes |
 				Select-Object airDate, seriesTitle, seasonNumber, episodeNumber, title |
 				Sort-Object airDate
 
@@ -54,8 +45,7 @@ function Get-SonarrUpcomingEpisodes
 
 		.NOTES
 			By default the calendar endpoint returns episode objects only; they identify the series
-			by seriesId, not by name. Use -IncludeSeriesTitle to have Sonarr resolve the series in
-			the same request, or pass seriesId to Get-SonarrSeries for the full series object.
+			by seriesId, not by name.
 	#>
 
 	[CmdletBinding()]
@@ -127,13 +117,9 @@ function Get-SonarrUpcomingEpisodes
 		$Data = Invoke-SonarrRequest -Path '/calendar' -Method GET -Params $Params -ErrorAction Stop
 		if($Data)
 		{
-			if($IncludeSeriesTitle)
-			{
-				# Surface the title as a flat property and drop the embedded series object, which is
-				# ~1.5KB per episode and makes the output unwieldy to read.
-				$Data = $Data | Select-Object -Property @{ Name = 'seriesTitle'; Expression = { $_.series.title } }, * -ExcludeProperty series
-			}
-
+			# Surface the title as a flat property and drop the embedded series object, which is
+			# ~1.5KB per episode and makes the output unwieldy to read.
+			$Data = $Data | Select-Object -Property @{ Name = 'seriesTitle'; Expression = { $_.series.title } }, * -ExcludeProperty series
 			return $Data
 		}
 		else

@@ -1,19 +1,19 @@
 function Get-SonarrSeriesEpisode
 {
 	<#
-	.SYNOPSIS
-		Retrieves episode-level data for a series from Sonarr.
+		.SYNOPSIS
+			Retrieves episode-level data for a series from Sonarr.
 
-	.DESCRIPTION
-		PSSonarr does not expose the episode endpoint, so this calls the Sonarr API
-		directly (GET /api/v3/episode?seriesId=) using the same server and API key
-		that server.ps1 passes to Set-SonarrConfiguration.
+		.DESCRIPTION
+			PSSonarr does not expose the episode endpoint, so this calls the Sonarr API
+			directly (GET /api/v3/episode?seriesId=) using the server and API key from the
+			active context.
 
-	.PARAMETER SeriesId
-		The Sonarr series ID.
+		.PARAMETER SeriesId
+			The Sonarr series ID.
 
-	.EXAMPLE
-		$Episodes = Get-SonarrSeriesEpisode -SeriesId 123
+		.EXAMPLE
+			$Episodes = Get-SonarrSeriesEpisode -SeriesId 123
 	#>
 	[CmdletBinding()]
 	param(

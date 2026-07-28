@@ -4,13 +4,6 @@ function Get-SonarrQualityProfile
 		.SYNOPSIS
 			Retrieves quality profiles from Sonarr.
 
-		.SYNTAX
-			Get-SonarrQualityProfile [<CommonParameters>]
-
-			Get-SonarrQualityProfile -Id <String> [<CommonParameters>]
-
-			Get-SonarrQualityProfile -Name <String> [<CommonParameters>]
-
 		.DESCRIPTION
 			Retrieves quality profile information from Sonarr. Can return all quality profiles or filter by specific criteria
 			such as ID or name.
@@ -77,7 +70,7 @@ function Get-SonarrQualityProfile
 	#Region make the main request
 	try
 	{
-		$Data = Invoke-SonarrRequest -Path $Path -Method GET -ErrorAction Stop
+		$Data = Invoke-SonarrRequest -Path $Path -Method GET -SuppressWhatIf -ErrorAction Stop
 		if($Data)
 		{
 			if($Name)

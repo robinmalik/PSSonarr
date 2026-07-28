@@ -4,9 +4,6 @@ function Set-SonarrSeriesQualityProfile
 		.SYNOPSIS
 			Sets the quality profile for a series in Sonarr.
 
-		.SYNTAX
-			Set-SonarrSeriesQualityProfile -Id <Int32> -QualityProfileId <Int32> [<CommonParameters>]
-
 		.DESCRIPTION
 			Updates the quality profile for a series in Sonarr. This determines the quality standards
 			that Sonarr will use when searching for and downloading episodes for this series.

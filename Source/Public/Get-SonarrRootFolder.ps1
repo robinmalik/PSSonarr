@@ -1,32 +1,29 @@
 function Get-SonarrRootFolder
 {
 	<#
-    .SYNOPSIS
-        Gets root folder configuration from Sonarr.
+		.SYNOPSIS
+			Gets root folder configuration from Sonarr.
 
-    .DESCRIPTION
-        Returns configured root folders in Sonarr, including available disk space and folder paths. Can filter by root folder ID.
+		.DESCRIPTION
+			Returns configured root folders in Sonarr, including available disk space and folder paths. Can filter by root folder ID.
 
-    .PARAMETER Id
-        The ID of a specific root folder to retrieve.
+		.PARAMETER Id
+			The ID of a specific root folder to retrieve.
 
-    .EXAMPLE
-        Get-SonarrRootFolder
+		.EXAMPLE
+			Get-SonarrRootFolder
 
-        Returns all configured root folders from the default Sonarr server.
+			Returns all configured root folders from the default Sonarr server.
 
-    .EXAMPLE
-        Get-SonarrRootFolder -Id 1
+		.EXAMPLE
+			Get-SonarrRootFolder -Id 1
 
-        Returns the root folder with ID 1.
+			Returns the root folder with ID 1.
 
-    .EXAMPLE
-        Get-SonarrRootFolder | Select-Object path, @{n='FreeSpaceGB';e={[math]::Round($_.freeSpace/1GB,2)}}
+		.EXAMPLE
+			Get-SonarrRootFolder | Select-Object path, @{n='FreeSpaceGB';e={[math]::Round($_.freeSpace/1GB,2)}}
 
-        Returns all root folders with their paths and free space in GB.
-
-    .NOTES
-        Requires Sonarr v3+ API.
+			Returns all root folders with their paths and free space in GB.
     #>
 	[CmdletBinding(DefaultParameterSetName = 'All')]
 	param (
