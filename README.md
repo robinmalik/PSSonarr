@@ -64,7 +64,7 @@ Save-SonarrContext -Name 'ci' -Server 'sonarr' -APIKey $env:SONARR_API_KEY -Root
 Remove-SonarrContext -Name tv4k
 ```
 
-Contexts are stored as JSON in `$HOME/.PSSonarr/Contexts`. The API key is stored in plain text so that contexts remain portable between machines and containers — anyone able to read that directory can read the key.
+Contexts are stored as JSON in `$HOME/.PSSonarr/Contexts`. The API key is stored in plain text so that contexts remain portable between machines and containers - anyone able to read that directory can read the key.
 
 <br>
 
